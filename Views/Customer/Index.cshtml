@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ABCRetailers.Models.Customer>
+@{
+    ViewData["Title"] = "Customers";
+}
+<h2>Customers</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Customer</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Shipping Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Name</td>
+                <td>@c.Surname</td>
+                <td>@c.Email</td>
+                <td>@c.Username</td>
+                <td>@c.ShippingAddress</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@c.CustomerRowKey" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@c.CustomerRowKey" class="btn btn-warning btn-sm">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@c.CustomerRowKey" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete this customer?');">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

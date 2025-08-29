@@ -1,0 +1,35 @@
+﻿@model ABCRetailers.Models.Product
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<h2>Add Product</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data" class="mt-3">
+    <div class="mb-3">
+        <label asp-for="ProductName" class="form-label"></label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" class="form-control" step="0.01" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="StockAvailable" class="form-label"></label>
+        <input asp-for="StockAvailable" type="number" class="form-control" />
+        <span asp-validation-for="StockAvailable" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="imageFile" class="form-label">Product Image (JPG)</label>
+        <input type="file" name="imageFile" accept=".jpg,.jpeg" class="form-control" />
+        <div class="form-text">Only .jpg or .jpeg allowed.</div>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

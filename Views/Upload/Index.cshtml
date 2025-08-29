@@ -1,0 +1,89 @@
+﻿@@using ABCRetailers.Models
+@{
+    ViewData["Title"] = "Upload Proof of Payment";
+    var order = ViewBag.Order as Order;
+    var customer = ViewBag.Customer as Customer;
+    var product = ViewBag.Product as Product;
+    double total = ViewBag.Total ?? 0;
+    string? orderId = ViewBag.OrderId as string;
+}
+
+<h2>Upload Proof of Payment</h2>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-4">
+            <label for="customerName" class="form-label">Customer Name</label>
+            <input type="text" id="customerName" name="customerName" class="form-control"
+                   placeholder="Enter Customer Name" value="@ViewBag.CustomerName" />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Fetch Invoice</button>
+        </div>
+    </div>
+</form>
+
+@if (order != null && customer != null && product != null)
+{
+    <div class="card shadow-sm p-4">
+        <div class="d-flex justify-content-between mb-3">
+            <h4>Invoice Preview</h4>
+            <small>Order #: <strong>@order.RowKey</strong></small>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <h6>Customer Information</h6>
+                <p>
+                    <strong>Name:</strong> @customer.Name <br />
+                    <strong>Email:</strong> @customer.Email <br />
+                    <strong>Shipping Address:</strong> @customer.ShippingAddress
+                </p>
+            </div>
+            <div class="col-md-6 text-end">
+                <h6>Order Information</h6>
+                <p>
+                    <strong>Product:</strong> @product.ProductName <br />
+                    <strong>Quantity:</strong> @order.Quantity <br />
+                    <strong>Unit Price:</strong> @product.Price.ToString("C") <br />
+                    <strong>Total:</strong> @total.ToString("C")
+                </p>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@product.ProductName</td>
+                    <td>@order.Quantity</td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>@total.ToString("C")</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3" class="text-end">Total</th>
+                    <th>@total.ToString("C")</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-center mt-3">
+            <button class="btn btn-success" disabled>Confirm</button>
+        </div>
+    </div>
+}
+else if (!string.IsNullOrEmpty(orderId))
+{
+    <div class="alert alert-warning">
+        <i class="fas fa-exclamation-circle"></i> Order not found.
+    </div>
+}

@@ -1,0 +1,106 @@
+﻿@model ABCRetailers.Models.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid min-vh-100 text-light bg-dark py-4">
+
+    <!-- Animated Heading -->
+    <h1 class="display-4 text-warning fw-bold mb-5 animate__animated animate__fadeInDown">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </h1>
+
+    <!-- Dashboard Cards -->
+    <div class="row g-4">
+        <!-- Customers -->
+        <div class="row g-4">
+            <!-- Customers -->
+            <div class="col-md-4">
+                <div class="card card-hover text-center text-light bg-secondary p-3"
+                     onclick="location.href='@Url.Action("Index", "Customer")'"
+                     style="cursor:pointer;">
+                    <i class="fas fa-users fa-3x mb-2 text-info"></i>
+                    <h5 class="fw-bold">Customers</h5>
+                    <h2>@Model.CustomerCount</h2>
+                    <span class="btn btn-outline-info btn-sm mt-2">Manage Customers</span>
+                </div>
+            </div>                                                                                                                                                                   
+
+
+        <!-- Products -->
+    <div class="col-md-4">
+        <div class="card card-hover text-center text-light bg-secondary p-3"
+             onclick="location.href='@Url.Action("Index", "Product")'"
+             style="cursor:pointer;">
+            <i class="fas fa-box-open fa-3x mb-2 text-success"></i>
+            <h5 class="fw-bold">Products</h5>
+            <h2>@Model.ProductCount</h2>
+            <span class="btn btn-outline-success btn-sm mt-2">Manage Products</span>
+        </div>
+    </div>                                                                                                                                                        
+
+        <!-- Orders -->
+    <div class="col-md-4">
+        <div class="card card-hover text-center text-light bg-secondary p-3"
+             onclick="location.href='@Url.Action("Index", "Order")'"
+             style="cursor:pointer;">
+            <i class="fas fa-shopping-cart fa-3x mb-2 text-warning"></i>
+            <h5 class="fw-bold">Orders</h5>
+            <h2>@Model.OrderCount</h2>
+            <span class="btn btn-outline-warning btn-sm mt-2">Manage Orders</span>
+        </div>
+    </div>                                                                                                                                                                                     also make this one not transparent
+</div>
+
+
+    <!-- Featured Products -->
+    <div class="mt-5">
+        <h3 class="text-light mb-4"><i class="fas fa-star text-warning"></i> Featured Products</h3>
+        <div class="row g-4">
+            @if (!Model.FeaturedProducts.Any())
+            {
+                <div class="col-12">
+                    <div class="alert alert-secondary text-dark">No featured products available.</div>
+                </div>
+            }
+            else
+            {
+                @foreach (var p in Model.FeaturedProducts)
+                {
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="card card-hover h-100 bg-secondary text-light shadow-sm">
+                            @if (!string.IsNullOrEmpty(p.ImageUrl))
+                            {
+                                <img src="@p.ImageUrl" class="card-img-top" style="height:180px; object-fit:cover;" />
+                            }
+                            else
+                            {
+                                <div class="bg-dark d-flex justify-content-center align-items-center" style="height:180px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            }
+                            <div class="card-body text-center">
+                                <h6 class="fw-bold">@p.ProductName</h6>
+                                <p class="text-info fw-semibold mb-2">@p.Price.ToString("C")</p>
+                                <a href="@Url.Action("Index", "Product")" class="btn btn-outline-light btn-sm">View Products</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-hover {
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-radius: 0.5rem;
+    }
+
+        .card-hover:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.2);
+        }
+</style>
+
